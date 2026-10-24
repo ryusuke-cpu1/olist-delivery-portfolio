@@ -189,7 +189,7 @@ erDiagram
 ### 実行
 
 ```bash
-git clone <this-repository-url>
+git clone https://github.com/ryusuke-cpu1/olist-delivery-portfolio.git
 cd olist-delivery-portfolio
 ./scripts/run_analysis.sh /path/to/olist_delivery_dataset
 ```
