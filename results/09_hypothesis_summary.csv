@@ -1,0 +1,7 @@
+hypothesis_id,hypothesis,comparison_value,baseline_value,difference,result
+H1,Late orders have lower review scores,2.56,4.29,-1.73,Supported: association only
+H2,Long-distance routes have a higher late rate,13.06,6.3,6.76,Supported: unadjusted comparison
+H3,Heavy orders have a higher late rate,10.12,7.82,2.3,Supported: unadjusted comparison
+H4,Orders with 3+ items have a higher late rate,6.2,8.29,-2.09,Not supported
+H5,Interstate routes have a higher late rate,9.26,6.06,3.2,Supported: unadjusted comparison
+H6,Late orders spend longer in carrier transit,25.68,7.89,17.8,Supported: association only

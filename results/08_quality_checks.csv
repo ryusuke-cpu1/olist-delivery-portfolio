@@ -1,0 +1,8 @@
+check_name,check_value
+mart_row_count,96455
+distinct_order_count,96455
+duplicate_order_rows,0
+missing_review_pct,0.67
+missing_distance_pct,0.5
+negative_delivery_duration_rows,0
+payment_vs_item_freight_abs_diff_brl,2688.02

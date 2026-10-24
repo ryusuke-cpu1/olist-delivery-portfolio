@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Olist配送パフォーマンス分析</title>
+  <style>
+    :root { --navy:#17324D; --blue:#2F6B9A; --teal:#2A9D8F; --orange:#E76F51; --bg:#F5F7F9; --text:#243746; --muted:#667784; }
+    * { box-sizing:border-box; } body { margin:0; font-family:Arial,"Hiragino Kaku Gothic ProN",sans-serif; color:var(--text); background:var(--bg); line-height:1.65; }
+    header { background:linear-gradient(120deg,var(--navy),#245579); color:white; padding:72px 24px; }
+    .wrap { max-width:1080px; margin:auto; } h1 { font-size:42px; line-height:1.2; margin:0 0 16px; } h2 { color:var(--navy); margin-top:54px; }
+    .lead { max-width:760px; font-size:18px; color:#E7EEF3; } .tag { display:inline-block; background:#ffffff1f; border:1px solid #ffffff55; border-radius:999px; padding:6px 12px; margin:4px; }
+    main { padding:34px 24px 72px; } .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; margin-top:-68px; }
+    .card { background:white; border-radius:12px; padding:22px; box-shadow:0 8px 24px #17324d14; } .kpi-value { color:var(--navy); font-size:30px; font-weight:700; } .kpi-label { color:var(--muted); font-size:13px; }
+    .finding { border-left:5px solid var(--orange); } .finding strong { color:var(--navy); }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:18px; } img { width:100%; background:white; border-radius:12px; box-shadow:0 8px 24px #17324d10; }
+    table { width:100%; border-collapse:collapse; background:white; } th,td { padding:12px; border-bottom:1px solid #E4EBF0; text-align:left; } th { background:var(--navy); color:white; }
+    code { background:#EAF0F4; padding:2px 5px; border-radius:4px; } footer { color:var(--muted); font-size:13px; margin-top:54px; }
+  </style>
+</head>
+<body>
+<header><div class="wrap">
+  <p>SQL DATA ANALYTICS PORTFOLIO</p>
+  <h1>Olist配送パフォーマンス分析</h1>
+  <p class="lead">ブラジルのEC公開データを用い、配送遅延が顧客評価へ与える関係と、改善対象となる物流セグメントをDuckDB SQLで分析しました。</p>
+  <div><span class="tag">DuckDB SQL</span><span class="tag">Data Modeling</span><span class="tag">Business Analysis</span></div>
+</div></header>
+<main><div class="wrap">
+  <section class="kpis">
+    <div class="card"><div class="kpi-value">96,455</div><div class="kpi-label">分析対象の配送完了注文</div></div>
+    <div class="card"><div class="kpi-value">8.11%</div><div class="kpi-label">予定日超過率</div></div>
+    <div class="card"><div class="kpi-value">10.21日</div><div class="kpi-label">配送日数の中央値</div></div>
+    <div class="card"><div class="kpi-value">4.16/5</div><div class="kpi-label">平均レビュー</div></div>
+  </section>
+
+  <h2>課題設定</h2>
+  <div class="card"><p>配送完了だけを成果とせず、約束した到着予定日を守れているかを主要KPIとします。事業課題は、遅延による低評価を減らしながら、どの工程・地域・注文特性から優先して改善すべきかを明らかにすることです。</p></div>
+
+  <h2>主要な発見</h2>
+  <div class="grid">
+    <div class="card finding"><strong>遅延と顧客評価には大きな差があります。</strong><p>7日以上早着した注文の平均評価は 4.32、8日以上遅延した注文は 1.7 でした。低評価率は 8.98% から 79.29% へ上昇しています。</p></div>
+    <div class="card finding"><strong>遅延注文では運送工程の長期化が目立ちます。</strong><p>配送業者への引き渡し後から顧客到着までの平均は、期限内注文が 7.89 日、遅延注文が 25.68 日です。因果は断定できませんが、監視対象として優先度が高い工程です。</p></div>
+  </div>
+
+  <h2>可視化</h2>
+  <img src="assets/review_by_delay.svg" alt="遅延区分別の平均レビュー">
+  <img src="assets/state_late_rate.svg" alt="州別の配送遅延率">
+  <img src="assets/monthly_late_rate.svg" alt="月別の配送遅延率">
+
+  <h2>改善提案</h2>
+  <table>
+    <thead><tr><th>優先度</th><th>施策</th><th>役割</th><th>検証KPI</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>配送リスクの早期警告</td><td>距離・州間配送・重量・商品数・出荷遅れを使い、予定日超過リスクの高い注文を事前に抽出する。</td><td>予定日超過率、8日以上遅延率</td></tr>
+      <tr><td>2</td><td>配送業者別SLA管理</td><td>引き渡し後の所要日数をルート別に監視し、長期化した組み合わせを改善対象にする。</td><td>carrier days、P90配送日数</td></tr>
+      <tr><td>3</td><td>約束日の精度改善</td><td>州・距離帯・重量帯・月別の実績分布から、過度に楽観的な予定日を補正する。</td><td>予定日内到着率、早着日数と遅延日数の偏り</td></tr>
+      <tr><td>4</td><td>遅延時の顧客対応</td><td>遅延見込み時点で通知し、更新予定日と選択肢を提示する。</td><td>遅延注文の低評価率、問い合わせ率</td></tr>
+    </tbody>
+  </table>
+
+  <h2>分析上の注意</h2>
+  <div class="card"><p>本分析は観察データの関連を示すもので、遅延が低評価を引き起こしたという因果効果を証明していません。レビューがない注文と位置情報が取得できない注文があり、距離は郵便番号ごとの緯度経度平均から計算した概算です。複数出品者の注文は取引金額が最大の出品者を代表として使用しました。</p></div>
+
+  <footer>Source: Brazilian E-Commerce Public Dataset by Olist. Analysis generated from the repository's SQL pipeline.</footer>
+</div></main>
+</body></html>

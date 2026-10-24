@@ -1,0 +1,6 @@
+data/*.csv
+*.duckdb
+*.duckdb.wal
+.DS_Store
+__pycache__/
+

@@ -1,0 +1,14 @@
+segment_type,segment,orders,late_rate_pct,avg_delivery_days,avg_review_score
+distance_band,"1,500+ km",8765,13.06,20.53,4.0
+distance_band,"750-1,499 km",17354,8.72,15.66,4.11
+distance_band,250-749 km,42560,7.97,12.87,4.13
+distance_band,<250 km,27298,6.3,7.5,4.28
+item_count,1 item,86821,8.29,12.64,4.21
+item_count,3+ items,2243,6.2,11.84,3.46
+item_count,2 items,7391,6.63,11.83,3.69
+route_scope,Interstate,61761,9.26,15.15,4.1
+route_scope,Same state,34694,6.06,7.94,4.26
+weight_band,10+ kg,5297,10.12,14.87,3.9
+weight_band,5-9.9 kg,7801,8.24,13.5,4.12
+weight_band,1-4.9 kg,28770,8.27,12.8,4.14
+weight_band,<1 kg,54571,7.82,12.07,4.19

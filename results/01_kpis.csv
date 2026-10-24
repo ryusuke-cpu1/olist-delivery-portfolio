@@ -1,0 +1,2 @@
+delivered_orders,first_purchase_date,last_purchase_date,late_rate_pct,avg_delivery_days,median_delivery_days,avg_review_score,low_review_rate_pct,item_value_brl,freight_value_brl,freight_to_item_value_pct
+96455,2016-09-15,2018-08-29,8.11,12.56,10.21,4.16,12.81,13218399.5,2197846.75,16.63
